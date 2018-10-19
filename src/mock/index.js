@@ -92,9 +92,9 @@ for (let i = 0; i < len; i++) {
   })
 }
 
-Mock.mock('/test', 'post', data)
+Mock.mock('/api/test', 'post', data)
 
 Mock.mock(/\/login\?.*/, 'get', opt => {
   console.log(opt)
-  return {data}
+  return {data, code: 101}
 })

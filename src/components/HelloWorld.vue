@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <button @click="getData">getData</button>
     <table v-if="data.length > 0">
       <tr v-for="item in data" :key="item.id">
         <td v-for="(val, key) in item" :key="key">
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-import {fetch, post} from '@/config/ajax'
+import {get, post} from '@/config/ajax'
 export default {
   name: 'HelloWorld',
   data () {
@@ -23,15 +24,19 @@ export default {
   },
   methods: {
     async getData () {
-      let data = await post('/test')
-      this.data = data
+      try {
+        let data = await post('/test')
+        this.data = data
+        console.log('post', data)
+        console.log(1)
+      } catch (e) {
+        console.log('1', e)
+      }
     },
     async login () {
-      let data = await fetch('/login', {
-        params: {
-          name: '111',
-          password: '2222'
-        }
+      let data = await get('/login', {
+        name: '111',
+        password: '2222'
       })
       console.log(data)
     }
@@ -39,6 +44,18 @@ export default {
   mounted () {
     this.getData()
     this.login()
+    post('/test').then(data => {
+      this.data = data
+      console.log(2)
+    }).catch(e => {
+      console.log('2', e)
+    })
+    post('/test').then(data => {
+      this.data = data
+      console.log(3)
+    }).catch(e => {
+      console.log('3', e)
+    })
   }
 }
 </script>
